@@ -1,33 +1,55 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Volume2, VolumeX, Heart } from 'lucide-react';
+import { Volume2, VolumeX, Heart, Music, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { surpriseConfig } from '../../config/surpriseConfig';
 
 export const MusicPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [useSynth, setUseSynth] = useState<boolean>(true);
+  const [showLyrics, setShowLyrics] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const synthTimerRef = useRef<number | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-  // Synthesized romantic lullaby melody (frequencies in Hz)
+  // Synthesized Samjhawan melody notes (Key of D / G)
   const melodyRef = useRef<{ note: number; dur: number }[]>([
-    { note: 659.25, dur: 0.5 }, // E5
-    { note: 783.99, dur: 0.5 }, // G5
-    { note: 987.77, dur: 0.7 }, // B5
-    { note: 1046.5, dur: 0.9 }, // C6
-    { note: 987.77, dur: 0.5 }, // B5
-    { note: 783.99, dur: 0.5 }, // G5
-    { note: 659.25, dur: 0.8 }, // E5
-    { note: 587.33, dur: 0.5 }, // D5
-    { note: 739.99, dur: 0.5 }, // F#5
-    { note: 880.0, dur: 0.7 },  // A5
-    { note: 1174.66, dur: 0.9 },// D6
-    { note: 880.0, dur: 0.5 },  // A5
-    { note: 739.99, dur: 0.8 }, // F#5
-    { note: 523.25, dur: 0.5 }, // C5
-    { note: 659.25, dur: 0.5 }, // E5
-    { note: 783.99, dur: 0.7 }, // G5
-    { note: 1046.5, dur: 1.1 }, // C6
+    // "Main tenu samjhawan ki..."
+    { note: 293.66, dur: 0.45 }, // D4 (Main)
+    { note: 369.99, dur: 0.45 }, // F#4 (te-)
+    { note: 392.00, dur: 0.45 }, // G4 (-nu)
+    { note: 440.00, dur: 0.65 }, // A4 (sam-)
+    { note: 493.88, dur: 0.5 },  // B4 (-jha-)
+    { note: 440.00, dur: 0.5 },  // A4 (-wan)
+    { note: 392.00, dur: 0.65 }, // G4 (ki)
+    { note: 369.99, dur: 0.9 },  // F#4
+
+    // "Na tere bina lagda jee..."
+    { note: 293.66, dur: 0.45 }, // D4 (Na)
+    { note: 329.63, dur: 0.45 }, // E4 (te-)
+    { note: 369.99, dur: 0.45 }, // F#4 (-re)
+    { note: 392.00, dur: 0.55 }, // G4 (bi-na)
+    { note: 369.99, dur: 0.5 },  // F#4 (lag-)
+    { note: 329.63, dur: 0.6 },  // E4 (-da)
+    { note: 293.66, dur: 1.1 },  // D4 (jee)
+
+    // "Tu ki jaane pyaar mera..."
+    { note: 293.66, dur: 0.4 },  // D4 (Tu)
+    { note: 369.99, dur: 0.4 },  // F#4 (ki)
+    { note: 440.00, dur: 0.5 },  // A4 (jaa-)
+    { note: 493.88, dur: 0.55 }, // B4 (-ne)
+    { note: 587.33, dur: 0.65 }, // D5 (pyaar)
+    { note: 554.37, dur: 0.5 },  // C#5 (me-)
+    { note: 493.88, dur: 0.5 },  // B4 (-ra)
+    { note: 440.00, dur: 0.9 },  // A4
+
+    // "Main karoon intezaar tera..."
+    { note: 392.00, dur: 0.45 }, // G4 (Main)
+    { note: 493.88, dur: 0.45 }, // B4 (ka-)
+    { note: 440.00, dur: 0.5 },  // A4 (-roon)
+    { note: 392.00, dur: 0.45 }, // G4 (in-te-)
+    { note: 369.99, dur: 0.5 },  // F#4 (-zaar)
+    { note: 329.63, dur: 0.5 },  // E4 (te-)
+    { note: 293.66, dur: 1.4 },  // D4 (-ra)
   ]);
   const noteIndexRef = useRef<number>(0);
 
@@ -55,7 +77,7 @@ export const MusicPlayer: React.FC = () => {
     osc.type = 'sine';
     osc.frequency.setValueAtTime(note, ctx.currentTime);
 
-    // Overtones for rich music box timbre
+    // Overtones for rich romantic music box chime
     const osc2 = ctx.createOscillator();
     const gain2 = ctx.createGain();
     osc2.type = 'sine';
@@ -63,8 +85,8 @@ export const MusicPlayer: React.FC = () => {
 
     const now = ctx.currentTime;
     gain.gain.setValueAtTime(0.001, now);
-    gain.gain.exponentialRampToValueAtTime(0.08, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.6);
+    gain.gain.exponentialRampToValueAtTime(0.09, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.5);
 
     gain2.gain.setValueAtTime(0.001, now);
     gain2.gain.exponentialRampToValueAtTime(0.02, now + 0.01);
@@ -77,7 +99,7 @@ export const MusicPlayer: React.FC = () => {
 
     osc.start(now);
     osc2.start(now);
-    osc.stop(now + dur * 1.6);
+    osc.stop(now + dur * 1.5);
     osc2.stop(now + dur * 0.8);
 
     // Schedule next note
@@ -92,21 +114,20 @@ export const MusicPlayer: React.FC = () => {
   };
 
   const startMusic = async () => {
-    // First try HTML5 audio if mp3 is present
     if (audioRef.current && !useSynth) {
       try {
         await audioRef.current.play();
         setIsPlaying(true);
+        setShowLyrics(true);
         return;
       } catch {
-        // Fallback to synth
         setUseSynth(true);
       }
     }
 
-    // Use Web Audio Synth
     playNextSynthNote();
     setIsPlaying(true);
+    setShowLyrics(true);
   };
 
   const stopMusic = () => {
@@ -125,7 +146,6 @@ export const MusicPlayer: React.FC = () => {
     }
   };
 
-  // Check if mp3 file exists
   useEffect(() => {
     const audio = new Audio(surpriseConfig.music.audioFilePath);
     audio.loop = true;
@@ -137,7 +157,6 @@ export const MusicPlayer: React.FC = () => {
     });
 
     audio.addEventListener('error', () => {
-      // Fallback to built-in music box synth
       setUseSynth(true);
     });
 
@@ -150,44 +169,89 @@ export const MusicPlayer: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative group">
-      <button
-        onClick={toggleMusic}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 text-xs sm:text-sm font-medium border shadow-sm backdrop-blur-md cursor-pointer ${
-          isPlaying
-            ? 'bg-rose-500/15 border-rose-400/50 text-rose-700 shadow-rose-200/50 ring-2 ring-rose-300/40'
-            : 'bg-white/80 border-pink-200/70 text-pink-700 hover:bg-pink-50/90'
-        }`}
-        title={isPlaying ? 'Pause romantic music' : 'Play romantic background music'}
-        aria-label={isPlaying ? 'Pause music' : 'Play music'}
-      >
-        <span className="relative flex items-center justify-center">
-          {isPlaying ? (
-            <Volume2 className="w-4 h-4 text-rose-500 animate-pulse" />
-          ) : (
-            <VolumeX className="w-4 h-4 text-pink-400" />
+    <div className="relative">
+      <div className="flex items-center gap-1.5">
+        <button
+          onClick={toggleMusic}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 text-xs sm:text-sm font-medium border shadow-sm backdrop-blur-md cursor-pointer ${
+            isPlaying
+              ? 'bg-rose-500/15 border-rose-400/50 text-rose-700 shadow-rose-200/50 ring-2 ring-rose-300/40'
+              : 'bg-white/80 border-pink-200/70 text-pink-700 hover:bg-pink-50/90'
+          }`}
+          title={isPlaying ? 'Pause Samjhawan' : 'Play Samjhawan song melody'}
+          aria-label={isPlaying ? 'Pause music' : 'Play music'}
+        >
+          <span className="relative flex items-center justify-center">
+            {isPlaying ? (
+              <Volume2 className="w-4 h-4 text-rose-500 animate-pulse" />
+            ) : (
+              <VolumeX className="w-4 h-4 text-pink-400" />
+            )}
+          </span>
+
+          <span className="font-sans">
+            {isPlaying ? 'Samjhawan ❤️' : 'Play Song 🎶'}
+          </span>
+
+          {isPlaying && (
+            <div className="flex items-end gap-0.5 h-3">
+              <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-1" />
+              <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-2" />
+              <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-3" />
+            </div>
           )}
-        </span>
+        </button>
 
-        <span className="hidden sm:inline font-sans">
-          {isPlaying ? 'Music: Playing ❤️' : 'Romantic Music'}
-        </span>
-
-        {/* Dancing music bars when active */}
+        {/* Lyrics button toggle */}
         {isPlaying && (
-          <div className="flex items-end gap-0.5 h-3">
-            <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-1" />
-            <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-2" />
-            <span className="w-0.5 bg-rose-500 rounded-full animate-music-bar-3" />
-          </div>
+          <button
+            onClick={() => setShowLyrics(!showLyrics)}
+            className="p-1.5 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 transition-colors border border-rose-200/80 cursor-pointer text-xs flex items-center gap-1"
+            title="Toggle Samjhawan Lyrics"
+          >
+            <Music className="w-3.5 h-3.5" />
+            <span className="hidden md:inline text-[11px] font-medium">Lyrics</span>
+          </button>
         )}
-      </button>
-
-      {/* Floating subtle tooltip on hover */}
-      <div className="absolute right-0 top-full mt-2 hidden group-hover:flex items-center gap-1.5 px-2.5 py-1 bg-white/95 text-[11px] text-pink-800 rounded-lg shadow-md border border-pink-100 whitespace-nowrap z-50 pointer-events-none">
-        <Heart className="w-3 h-3 text-rose-400 fill-rose-300" />
-        <span>{surpriseConfig.music.songTitle}</span>
       </div>
+
+      {/* Floating Samjhawan Lyrics Card */}
+      <AnimatePresence>
+        {isPlaying && showLyrics && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            className="absolute right-0 top-full mt-3 w-72 sm:w-80 bg-white/95 backdrop-blur-xl border border-rose-200 rounded-2xl p-4 shadow-xl z-50 text-left"
+          >
+            <div className="flex items-center justify-between pb-2 border-b border-pink-100 mb-2.5">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-rose-900">
+                <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
+                <span>Samjhawan • Our Favorite Song 🎶</span>
+              </div>
+              <button
+                onClick={() => setShowLyrics(false)}
+                className="p-1 text-rose-400 hover:text-rose-700 rounded-lg"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <div className="space-y-1.5 text-xs text-rose-900/90 font-serif italic leading-relaxed">
+              {surpriseConfig.music.samjhawanLyrics.map((line, idx) => (
+                <p key={idx} className={idx === 0 || idx === 1 ? 'font-bold text-rose-700' : ''}>
+                  {line}
+                </p>
+              ))}
+            </div>
+
+            <div className="mt-2.5 pt-2 border-t border-pink-100 flex items-center justify-between text-[10px] text-rose-500 font-sans">
+              <span>Dedicated with love by Fayzuuu</span>
+              <span>For Chokkiii Maaa ❤️</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

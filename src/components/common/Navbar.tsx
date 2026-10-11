@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Lock, HelpCircle, Heart } from 'lucide-react';
 import { MusicPlayer } from '../audio/MusicPlayer';
-import { surpriseConfig } from '../../config/surpriseConfig';
 
 interface NavbarProps {
   currentScreen: 'password' | 'teddyHub' | 'countdown' | 'memories' | 'letter';
@@ -35,12 +34,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-full bg-pink-100/80 text-rose-500 shadow-sm">
-                <Heart className="w-4 h-4 fill-rose-400" />
+              <span className="p-2 rounded-full bg-gradient-to-tr from-rose-500 to-pink-500 text-white shadow-[0_0_14px_rgba(244,63,94,0.6)] animate-pulse">
+                <Heart className="w-4 h-4 fill-white" />
               </span>
-              <span className="font-serif font-semibold text-rose-900 text-sm sm:text-base tracking-wide truncate max-w-[200px] sm:max-w-none">
-                {surpriseConfig.siteTitle}
-              </span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                <span className="font-serif font-extrabold text-rose-950 text-base sm:text-lg tracking-tight">
+                  30 Days to Go ❤️
+                </span>
+                <span className="inline-flex items-center text-[10px] sm:text-xs font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 text-white shadow-[0_0_16px_rgba(244,63,94,0.7)] animate-pulse">
+                  ✨ Advance Surprise ✨
+                </span>
+              </div>
             </div>
           )}
         </div>

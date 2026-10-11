@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Heart, Cake, Gift, ArrowLeft } from 'lucide-react';
+import { Sparkles, Heart, Gift, ArrowLeft } from 'lucide-react';
 import { TeddyCountdown } from '../teddies/TeddyCountdown';
 import { surpriseConfig } from '../../config/surpriseConfig';
 import { calculateTimeLeft, formatBirthdayDisplay, type TimeLeft } from '../../utils/countdown';
@@ -68,15 +68,15 @@ export const ScreenCountdown: React.FC<ScreenCountdownProps> = ({ onBack }) => {
         {/* Top Gradient Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-rose-400 via-pink-400 to-amber-300" />
 
-        {/* Badge */}
+        {/* Glowing Advance Wishes Highlight Banner */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-rose-100 text-rose-700 text-xs sm:text-sm font-semibold tracking-wider mb-4 border border-rose-200"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 text-white text-xs sm:text-sm font-extrabold tracking-wider mb-4 shadow-[0_0_20px_rgba(244,63,94,0.6)] animate-pulse"
         >
-          <Cake className="w-4 h-4 text-rose-500" />
+          <Sparkles className="w-4 h-4 text-amber-200" />
           <span>{surpriseConfig.birthday.countdownBadge}</span>
-          <Sparkles className="w-4 h-4 text-amber-500" />
+          <Heart className="w-4 h-4 fill-white text-white" />
         </motion.div>
 
         {/* Animated Teddy */}
@@ -102,10 +102,10 @@ export const ScreenCountdown: React.FC<ScreenCountdownProps> = ({ onBack }) => {
           className="font-sans text-base sm:text-xl font-medium text-rose-700 mb-8"
         >
           {timeLeft.isComplete ? (
-            <span className="text-emerald-600 font-bold">🎉 IT'S YOUR BIRTHDAY TODAY! HAPPY BIRTHDAY! 🎂</span>
+            <span className="text-emerald-600 font-bold">🎉 IT'S YOUR BIRTHDAY TODAY! HAPPY BIRTHDAY, CHOKKIII MAAA! 🎂</span>
           ) : (
             <span>
-              Only <strong className="text-rose-600 font-bold">{timeLeft.days} Days</strong> to Go Until Your Special Day!
+              Only <strong className="text-rose-600 font-bold text-xl sm:text-2xl">{timeLeft.days} Days</strong> to Go Until My Special Day!
             </span>
           )}
         </motion.div>

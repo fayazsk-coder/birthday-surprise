@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, ChevronLeft, ChevronRight, Calendar, MapPin, Sparkles } from 'lucide-react';
-import type { MemoryItem } from '../../config/surpriseConfig';
+export interface MemoryItem {
+  id: string;
+  title: string;
+  date: string;
+  location?: string;
+  image: string;
+  caption: string;
+  isDemo?: boolean;
+  tag?: string;
+}
 import { sounds } from '../audio/soundEffects';
 
 interface LightboxProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, ChevronRight, Cake, Camera, Mail } from 'lucide-react';
+import { Sparkles, Heart, ChevronRight, Cake, Feather, Mail } from 'lucide-react';
 import { TeddyCountdown } from '../teddies/TeddyCountdown';
 import { TeddyMemories } from '../teddies/TeddyMemories';
 import { TeddyLetter } from '../teddies/TeddyLetter';
@@ -109,7 +109,7 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
           {/* Badge */}
           <div className="flex justify-center mb-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100/90 text-purple-700 text-xs font-semibold">
-              <Camera className="w-3.5 h-3.5 text-purple-500" />
+              <Feather className="w-3.5 h-3.5 text-purple-500" />
               {surpriseConfig.teddyHub.teddy2.badge}
             </span>
           </div>
