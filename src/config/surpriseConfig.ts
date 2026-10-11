@@ -140,7 +140,7 @@ export const surpriseConfig: SurpriseConfig = {
 
   // === 3. BIRTHDAY & COUNTDOWN CONFIGURATION ===
   birthday: {
-    targetDate: "2026-11-10T00:00:00",
+    targetDate: "2026-11-11T00:00:00",
     timezone: "auto",
     countdownBadge: "✨ 30 DAYS ADVANCE BIRTHDAY SURPRISE ✨",
     countdownHeading: "Happy Birthday in Advance, Chokkiii Maaa! ❤️🎂",

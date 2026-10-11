@@ -9,13 +9,23 @@ import { sounds } from '../audio/soundEffects';
 
 interface ScreenTeddyHubProps {
   onSelectScreen: (screen: 'countdown' | 'memories' | 'letter') => void;
+  visitedScreens: string[];
+  onOpenBlush: () => void;
 }
 
-export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }) => {
+export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({
+  onSelectScreen,
+  visitedScreens,
+  onOpenBlush,
+}) => {
   const handleSelect = (screen: 'countdown' | 'memories' | 'letter') => {
     sounds.playPop();
     onSelectScreen(screen);
   };
+
+  const isAllVisited = visitedScreens.includes('countdown') &&
+    visitedScreens.includes('memories') &&
+    visitedScreens.includes('letter');
 
   return (
     <div className="min-h-[calc(100vh-4rem)] px-4 py-8 sm:py-12 max-w-6xl mx-auto flex flex-col justify-center">
@@ -69,6 +79,7 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/90 text-rose-700 text-xs font-semibold">
               <Cake className="w-3.5 h-3.5 text-rose-500" />
               {surpriseConfig.teddyHub.teddy1.badge}
+              {visitedScreens.includes('countdown') && <span className="text-emerald-500">✓</span>}
             </span>
           </div>
 
@@ -94,7 +105,7 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
           </div>
         </motion.div>
 
-        {/* CARD 2: TEDDY MEMORIES */}
+        {/* CARD 2: TEDDY MEMORIES & SHAYARI */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,6 +122,7 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100/90 text-purple-700 text-xs font-semibold">
               <Feather className="w-3.5 h-3.5 text-purple-500" />
               {surpriseConfig.teddyHub.teddy2.badge}
+              {visitedScreens.includes('memories') && <span className="text-emerald-500">✓</span>}
             </span>
           </div>
 
@@ -153,6 +165,7 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/90 text-rose-700 text-xs font-semibold">
               <Mail className="w-3.5 h-3.5 text-rose-500" />
               {surpriseConfig.teddyHub.teddy3.badge}
+              {visitedScreens.includes('letter') && <span className="text-emerald-500">✓</span>}
             </span>
           </div>
 
@@ -179,15 +192,40 @@ export const ScreenTeddyHub: React.FC<ScreenTeddyHubProps> = ({ onSelectScreen }
         </motion.div>
       </div>
 
-      {/* Sweet Bottom Reminder */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="text-center text-xs text-rose-800/60 mt-8"
+      {/* PLAYFUL BLUSHING QUESTION CARD (UNLOCKED FOR HER) */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mt-10 p-5 sm:p-7 rounded-3xl bg-gradient-to-r from-rose-100/90 via-pink-100/80 to-purple-100/90 border-2 border-rose-300 shadow-[0_15px_40px_-10px_rgba(244,63,94,0.3)] text-center max-w-xl mx-auto backdrop-blur-xl"
       >
-        ✨ Tip: You can visit all three teddy bears anytime using the top navigation bar!
-      </motion.p>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span className="text-2xl animate-bounce">🙈</span>
+          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-rose-700 bg-white/90 px-3 py-1 rounded-full border border-rose-200">
+            {isAllVisited ? "🎉 All 3 Surprises Explored! ✨" : `Explored: ${visitedScreens.length} of 3 Surprises 🧸`}
+          </span>
+          <span className="text-2xl animate-bounce">💋</span>
+        </div>
+
+        <h3 className="font-serif text-lg sm:text-2xl font-bold text-rose-950 mb-1">
+          Fayzuuu has a cheeky question for you... 🙈❤️
+        </h3>
+
+        <p className="font-sans text-xs sm:text-sm text-rose-900/85 mb-4">
+          {isAllVisited
+            ? "Since you explored all 3 surprises, it's time to answer! Tap below to blush..."
+            : "Tap here anytime to answer Fayzuuu's most playful question!"}
+        </p>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.96 }}
+          onClick={onOpenBlush}
+          className="px-6 py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-400 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-sm sm:text-base shadow-lg shadow-rose-200 cursor-pointer inline-flex items-center gap-2 ring-2 ring-pink-300/60"
+        >
+          <span>Kiss, Hug, or Both at a Time? 🙈💋🤗</span>
+        </motion.button>
+      </motion.div>
     </div>
   );
 };

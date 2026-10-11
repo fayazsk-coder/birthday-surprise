@@ -2,38 +2,61 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/common/Navbar';
 import { FloatingElements } from './components/background/FloatingElements';
+import { SparkleTrail } from './components/background/SparkleTrail';
 import { ScreenPassword } from './components/screens/ScreenPassword';
 import { ScreenTeddyHub } from './components/screens/ScreenTeddyHub';
 import { ScreenCountdown } from './components/screens/ScreenCountdown';
 import { ScreenMemories } from './components/screens/ScreenMemories';
 import { ScreenLetter } from './components/screens/ScreenLetter';
 import { GuideModal } from './components/modals/GuideModal';
+import { BlushQuestionModal } from './components/modals/BlushQuestionModal';
 import { surpriseConfig } from './config/surpriseConfig';
 
 type ScreenType = 'password' | 'teddyHub' | 'countdown' | 'memories' | 'letter';
 
 export const App: React.FC = () => {
-  // Check if session was already unlocked
   const [currentScreen, setCurrentScreen] = useState<ScreenType>(() => {
     const isUnlocked = sessionStorage.getItem('birthday_surprise_unlocked') === 'true';
     return isUnlocked ? 'teddyHub' : 'password';
   });
 
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [visitedScreens, setVisitedScreens] = useState<string[]>(() => {
+    try {
+      const saved = sessionStorage.getItem('visited_teddies');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  // When password succeeds
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isBlushOpen, setIsBlushOpen] = useState(false);
+
+  // When navigating to any screen, record it as visited
+  const handleNavigate = (screen: ScreenType) => {
+    if (screen === 'countdown' || screen === 'memories' || screen === 'letter') {
+      setVisitedScreens((prev) => {
+        if (!prev.includes(screen)) {
+          const next = [...prev, screen];
+          sessionStorage.setItem('visited_teddies', JSON.stringify(next));
+          return next;
+        }
+        return prev;
+      });
+    }
+    setCurrentScreen(screen);
+  };
+
   const handleUnlockSuccess = () => {
     sessionStorage.setItem('birthday_surprise_unlocked', 'true');
     setCurrentScreen('teddyHub');
   };
 
-  // Lock session manually
   const handleLockSession = () => {
     sessionStorage.removeItem('birthday_surprise_unlocked');
     setCurrentScreen('password');
   };
 
-  // Screen variants for smooth cinematic page transitions
   const pageVariants = {
     initial: { opacity: 0, y: 15, scale: 0.98 },
     animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: 'easeOut' as const } },
@@ -42,13 +65,16 @@ export const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col selection:bg-pink-300 selection:text-rose-900">
-      {/* Floating hearts and ambient light bokeh */}
+      {/* Floating hearts and romantic particles */}
       <FloatingElements />
+
+      {/* Interactive cursor/touch heart and sparkle trail */}
+      <SparkleTrail />
 
       {/* Top Navigation */}
       <Navbar
         currentScreen={currentScreen}
-        onNavigate={(screen) => setCurrentScreen(screen)}
+        onNavigate={handleNavigate}
         onOpenGuide={() => setIsGuideOpen(true)}
         onLockSession={handleLockSession}
       />
@@ -77,7 +103,9 @@ export const App: React.FC = () => {
               exit="exit"
             >
               <ScreenTeddyHub
-                onSelectScreen={(screen) => setCurrentScreen(screen)}
+                onSelectScreen={handleNavigate}
+                visitedScreens={visitedScreens}
+                onOpenBlush={() => setIsBlushOpen(true)}
               />
             </motion.div>
           )}
@@ -132,6 +160,9 @@ export const App: React.FC = () => {
 
       {/* Boyfriend's Setup & QR Code Modal */}
       <GuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
+
+      {/* Playful Blushing Question Modal */}
+      <BlushQuestionModal isOpen={isBlushOpen} onClose={() => setIsBlushOpen(false)} />
     </div>
   );
 };
