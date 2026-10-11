@@ -126,24 +126,34 @@ export interface SurpriseConfig {
 
 export const surpriseConfig: SurpriseConfig = {
   // === 1. PERSONAL INFORMATION ===
-  senderName: "Your Boyfriend", // 👈 REPLACE WITH YOUR NAME (e.g., "Fayaz")
-  recipientName: "My Sweetheart", // 👈 REPLACE WITH HER NAME (e.g., "Aisha")
+  senderName: "Fayzuuu", // 👈 Your romantic name
+  recipientName: "Fayzuuu ki Biwi ❤️", // 👈 Her romantic name
   siteTitle: "30 Days to Your Birthday ❤️",
   siteSubtitle: "A Little Romantic World Created Just for You",
 
   // === 2. SECRET PASSWORD SCREEN ===
   security: {
-    // 👈 CHANGE YOUR SECRET PASSWORD HERE! (Case-insensitive)
-    secretPassword: "love",
-    alternativePasswords: ["1024", "iloveyou", "sweetheart", "birthday", "forever"],
-    passwordHint: "Try entering 'love' or our special nickname! 🧸❤️",
+    // 👈 Special Secret Password:
+    secretPassword: "Fayzuuu ka biwi",
+    alternativePasswords: [
+      "fayzuuu ka biwi",
+      "fayzuuu ki biwi",
+      "fayzu ka biwi",
+      "fayzu ki biwi",
+      "fayzuu ka biwi",
+      "fayzuu ki biwi",
+      "fayzuuu",
+      "biwi",
+      "love",
+    ],
+    passwordHint: "Who are you to Fayzuuu? 🧸❤️ (Hint: Fayzuuu ka biwi / Fayzuuu ki biwi)",
     welcomeBadge: "✨ A Secret Gift for You ✨",
     welcomeHeading: "Someone Has a Little Surprise for You... ❤️",
     welcomeSubheading: "This little world was created just for you. Are you ready to open it?",
     inputPlaceholder: "Enter our secret code...",
     unlockButtonText: "Unlock My Surprise 🗝️✨",
     errorToastMessage: "Oopsie! That's not our secret code, sweetheart 🧸💭 Check the hint!",
-    successToastMessage: "Welcome in, my favorite person! Opening your world... 💖",
+    successToastMessage: "Welcome in, Fayzuuu ki Biwi! Opening your world... 💖",
   },
 
   // === 3. BIRTHDAY & COUNTDOWN CONFIGURATION ===
@@ -285,7 +295,7 @@ export const surpriseConfig: SurpriseConfig = {
       "This is only the beginning of your birthday countdown, sweetheart. There is so much more I want to celebrate about you.",
       "Happy Birthday in Advance, My Love! ❤️",
     ],
-    letterSignoff: "Forever with love,\nYour Love ❤️", // 👈 Replace with your nickname/name!
+    letterSignoff: "Forever with love,\nYour Fayzuuu ❤️",
     hugButtonText: "One Last Little Hug ❤️",
     hugMessage: "If I could send you one thing through this screen, it would be the biggest hug ever. Until then, let this little surprise remind you how special you are to me. ❤️🧸",
   },
