@@ -88,7 +88,8 @@ export interface SurpriseConfig {
     audioFilePath: string;
     songTitle: string;
     artist: string;
-    samjhawanLyrics: string[];
+    youtubeVideoId: string;
+    youtubeStartSeconds: number;
   };
 
   // === 8. THEME & COLORS ===
@@ -216,16 +217,11 @@ export const surpriseConfig: SurpriseConfig = {
   // === 7. MUSIC CONFIGURATION ===
   music: {
     enabledByDefault: false,
-    audioFilePath: "/audio/bg-music.mp3",
-    songTitle: "Main Tenu Samjhawan Ki (Our Favorite Song) ❤️",
+    audioFilePath: "/audio/bg-music.m4a",
+    youtubeVideoId: "yQ6d627OZig",
+    youtubeStartSeconds: 30,
+    songTitle: "Samjhawan (Our Favorite Song) ❤️",
     artist: "Dedicated to Chokkiii Maaa from Fayzuuu",
-    samjhawanLyrics: [
-      "Main tenu samjhawan ki... 🎶",
-      "Na tere bina lagda jee... ❤️",
-      "Tu ki jaane pyaar mera, main karoon intezaar tera... ✨",
-      "Dil ditta jaan vi devange, tu ik waari bol taan sahi... 🧸",
-      "Dedicated with all my heart to Chokkiii Maaa (Bubbuuuu) 💖",
-    ],
   },
 
   // === 8. THEME & COLORS ===
