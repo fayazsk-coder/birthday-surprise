@@ -1,6 +1,6 @@
 # 30 Days to Your Birthday ❤️ — Romantic Birthday Surprise Website
 
-A complete, premium, romantic, animated birthday surprise web application created for your girlfriend.
+A complete, premium, romantic, animated birthday surprise web application created for my fav person.
 
 Built with **React 19**, **Vite**, **TypeScript**, **Framer Motion**, and a custom **Pastel Fairytale Design System**.
 
